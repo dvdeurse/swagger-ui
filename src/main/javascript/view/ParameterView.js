@@ -38,6 +38,14 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
     this.model.paramType = this.model.in || this.model.paramType;
     this.model.isBody = this.model.paramType === 'body' || this.model.in === 'body';
     this.model.isFile = type && type.toLowerCase() === 'file';
+    var enums = schema.type === 'array' ? schema.items.enum : schema.enum;
+    if(enums){
+      this.model.enums = '<ul>';
+      for(var i = 0; i < enums.length; i++){
+        this.model.enums += '<li>' + enums[i] + '</li>';
+      }
+      this.model.enums += '</ul>';
+    }
 
     // Allow for default === false
     if(typeof this.model.default === 'undefined') {
